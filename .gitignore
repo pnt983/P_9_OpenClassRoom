@@ -134,6 +134,7 @@ dmypy.json
 .gitignore
 .idea
 ./.idea
+/.idea/misc.xml
 
 # User-specific stuff
 .idea/**/workspace.xml
