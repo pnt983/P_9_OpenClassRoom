@@ -1,7 +1,9 @@
 {% extends 'base/authentication_base.html' %}
 {% block content %}
     <div class="row">
-        <div class="col-6"></div>
+        <div class="col-6">
+            <p class="text-center">Pas encore membre ? <a href="{% url 'signup' %}">Inscrivez-vous maintenant !</a></p>
+        </div>
         <div class="col-6">
             <p>{{ message }}</p>
             <form method="post">

@@ -25,5 +25,6 @@ urlpatterns = [
                                redirect_authenticated_user=True), name='login'),
     # path('logout/', authentication.views.logout_user, name='logout'),
     path('logout/', LogoutView.as_view(), name='logout'),
-    path('home/', webapp.views.home, name='home')
+    path('home/', webapp.views.home, name='home'),
+    path('signup', authentication.views.signup_page, name='signup'),
 ]
