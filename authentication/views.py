@@ -1,5 +1,5 @@
-from django.contrib.auth import authenticate, login
-from django.shortcuts import render
+from django.contrib.auth import authenticate, login, logout
+from django.shortcuts import render, redirect
 
 from . import forms
 
@@ -18,5 +18,12 @@ def login_page(request):
             else:
                 message = "Identifiants invalides"
 
-    return render(request, "authentication/login.html",
+    return render(request, "authentication/connection_or_inscription.html",
                   context={"form": form, "message": message})
+
+
+def logout_user(request):
+    logout(request)
+    return redirect('login')
+
+
