@@ -7,7 +7,8 @@ from . import forms, models
 @login_required
 def home(request):
     tickets = models.Ticket.objects.all()
-    return render(request, 'webapp/home.html', context={'tickets': tickets})
+    reviews = models.Review.objects.all()
+    return render(request, 'webapp/home.html', context={'tickets': tickets, 'reviews': reviews})
 
 
 @login_required
@@ -42,3 +43,14 @@ def create_ticket_and_review(request):
     context = {'ticket_form': ticket_form, 'review_form': review_form}
     return render(request, 'webapp/create_ticket_and_review.html', context=context)
 
+
+@login_required
+def follow_users(request):
+    form = forms.FollowUsersForm(instance=request.user)
+    if request.method == 'POST':
+        form = forms.FollowUsersForm(request.POST, instance=request.user)
+        if form.is_valid():
+            # form.model.add(request.user)
+            form.save()
+            return redirect('follow_page')
+    return render(request, 'webapp/follow_page.html', context={'form': form})

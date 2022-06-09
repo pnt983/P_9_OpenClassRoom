@@ -1,0 +1,32 @@
+{% extends 'base/base.html' %}
+{% block content %}
+    <div class="row">
+        <div class="col-4"></div>
+        <div class="col-4">
+            <h2>Suivre d'autres utilisateurs</h2>
+            <form method="post">
+                {{ form.as_p }}
+                {% csrf_token %}
+                <button type="submit">Envoyer</button>
+            </form>
+        </div>
+        <div class="col-4"></div>
+    </div>
+
+    <div class="row">
+        <div class="col-4"></div>
+        <div class="col-4">
+            <h2>Abonnements</h2>
+        </div>
+        <div class="col-4"></div>
+    </div>
+
+    <div class="row">
+        <div class="col-4"></div>
+        <div class="col-4">
+            <h2>Abonnés</h2>
+        </div>
+        <div class="col-4"></div>
+    </div>
+
+{% endblock content %}

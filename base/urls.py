@@ -29,8 +29,9 @@ urlpatterns = [
     path('home/', webapp.views.home, name='home'),
     path('signup/', authentication.views.signup_page, name='signup'),
     path('ticket/create/', webapp.views.create_ticket, name='create_ticket'),
-    path('ticket/create/ticketandreview/', webapp.views.create_ticket_and_review,
+    path('ticket/create/ticket-and-review/', webapp.views.create_ticket_and_review,
          name='create_ticket_and_review'),
+    path('follow-users/', webapp.views.follow_users, name='follow_page'),
 ]
 
 if settings.DEBUG:
