@@ -1,4 +1,15 @@
 {% extends 'base/base.html' %}
 {% block content %}
-    <p>Vous etes connecte</p>
+    <div class="row">
+        <div class="col-4"></div>
+        <div class="col-4 text-center">
+            <h2>Mes posts</h2>
+            {% for ticket in tickets %}
+                <p>{{ ticket.author }}</p>
+                <p>{{ ticket.title }}</p>
+                <img src="{{ ticket.image.url }}" class="img-fluid">
+            {% endfor %}
+        </div>
+        <div class="col-4"></div>
+    </div>
 {% endblock content %}
