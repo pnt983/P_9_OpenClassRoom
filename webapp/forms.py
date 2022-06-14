@@ -4,13 +4,14 @@ from django.contrib.auth import get_user_model
 from . import models
 
 
-User = get_user_model()
+# User = get_user_model()
+from .models import UserFollows
 
 
-class FollowUsersForm(forms.ModelForm):
+class FollowForm(forms.ModelForm):
     class Meta:
-        model = User
-        fields = ['user']
+        model = UserFollows
+        fields = ['followed_user', 'user']
 
 
 class TicketForm(forms.ModelForm):

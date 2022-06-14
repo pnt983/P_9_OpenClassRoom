@@ -3,6 +3,11 @@
     <div class="row">
         <div class="col-3"></div>
         <div class="col-3">
+            <form>
+                <a href="{% url 'create_ticket' %}">
+                <input type="button" value="Demander une critique">
+                </a>
+            </form>
         </div>
         <div class="col-3">
             <form>
@@ -16,11 +21,16 @@
     <div class="row">
         <div class="col-4"></div>
         <div class="col-4 text-center">
-            <h2>Mes posts</h2>
+            <h2>Flux</h2>
             {% for ticket in tickets %}
-                <p>{{ ticket.author }}</p>
+                <p>{{ ticket.user }}</p>
                 <p>{{ ticket.title }}</p>
                 <img src="{{ ticket.image.url }}" class="img-fluid">
+            {% endfor %}
+            {% for review in reviews %}
+                <p>{{ review.user }}</p>
+                <p>{{ review.headline }}</p>
+                <img src="{{ reviews.image.url }}" class="img-fluid">
             {% endfor %}
         </div>
         <div class="col-4"></div>

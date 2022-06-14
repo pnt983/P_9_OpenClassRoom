@@ -1,0 +1,22 @@
+{% extends 'base/base.html' %}
+{% block content %}
+
+    <div class="row">
+        <div class="col-4"></div>
+        <div class="col-4 text-center">
+            <h2>Mes posts</h2>
+            {% for ticket in tickets %}
+                <p>{{ ticket.user }}</p>
+                <p>{{ ticket.title }}</p>
+                <img src="{{ ticket.image.url }}" class="img-fluid">
+            {% endfor %}
+            {% for review in reviews %}
+                <p>{{ review.user }}</p>
+                <p>{{ review.headline }}</p>
+                <img src="{{ reviews.image.url }}" class="img-fluid">
+            {% endfor %}
+        </div>
+        <div class="col-4"></div>
+    </div>
+
+{% endblock content %}
