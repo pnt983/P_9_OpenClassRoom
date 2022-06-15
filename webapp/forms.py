@@ -11,7 +11,7 @@ from .models import UserFollows
 class FollowForm(forms.ModelForm):
     class Meta:
         model = UserFollows
-        fields = ['followed_user', 'user']
+        fields = ['followed_user']
 
 
 class TicketForm(forms.ModelForm):

@@ -5,7 +5,7 @@
         <div class="col-4">
             <h2>Suivre d'autres utilisateurs</h2>
             <form method="post">
-                {{ user_follow.as_p }}
+                {{ form.as_p }}
                 {% csrf_token %}
                 <button type="submit">Envoyer</button>
             </form>
@@ -17,6 +17,12 @@
         <div class="col-4"></div>
         <div class="col-4">
             <h2>Abonnements</h2>
+            {% for user in following_user %}
+                <p>{{ user.user }}</p>
+                <form action="" method="post">
+                    <input type="submit" value="Supprimer">
+                </form>
+            {% endfor %}
         </div>
         <div class="col-4"></div>
     </div>
@@ -25,6 +31,9 @@
         <div class="col-4"></div>
         <div class="col-4">
             <h2>Abonnés</h2>
+            {% for user in followed_user %}
+                <p>{{ user.followed_user }}</p>
+            {% endfor %}
         </div>
         <div class="col-4"></div>
     </div>
