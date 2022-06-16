@@ -63,7 +63,6 @@ def create_ticket_and_review(request):
 def follow_users(request):
     follow_form = forms.FollowForm(instance=request.user)
     following_user = models.UserFollows.objects.filter(followed_user=request.user).exclude(user=request.user)
-    # following_user = test(request)
     followed_user = models.UserFollows.objects.filter(user=request.user).exclude(followed_user=request.user)
     if request.method == 'POST':
         follow_form = forms.FollowForm(request.POST)
@@ -82,19 +81,28 @@ def follow_users(request):
                                                                'followed_user': followed_user})
 
 
-def test(request):
-    print(request.method)
-    # t = models.UserFollows.objects.filter(followed_user=request.user)
-    # for i in t:
-    #     print("i = ", i)
-    #     print('i.followed_user = ', i.followed_user)
-    #     print('i.user = ', i.user)
-    #     print("request = ", request.user)
-    # following_user = models.UserFollows.objects.filter(followed_user=request.user).exclude(user=request.user)
-    # if request.POST:
-    #     t = models.UserFollows.objects.get(followed_user=request.user, user=user_id)
-        # t = models.UserFollows.objects.all()
-        # print(t)
-        # return redirect('follow-page')
+@login_required
+def unfollow(request, id):
+    try:
+        user = models.UserFollows.objects.get(id=id)
+        user.delete()
+    except user.DoesNotExist:
+        pass
+    return redirect('follow_page')
+
+
+@login_required
+def answer_ticket(request, id):
+    ticket = models.Ticket.objects.get(id=id)
+    form = forms.ReviewForm()
+    if request.POST:
+        form = forms.ReviewForm(request.POST)
+        if form.is_valid():
+            review = form.save(commit=False)
+            review.ticket = ticket
+            review.user = request.user
+            review.save()
+            return redirect('flux')
+    return render(request, 'webapp/answer_ticket.html', context={'ticket': ticket, 'form': form})
 
 

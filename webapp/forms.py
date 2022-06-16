@@ -25,3 +25,8 @@ class ReviewForm(forms.ModelForm):
         model = models.Review
         fields = ['headline', 'rating', 'body']
 
+
+class AnswerTicketForm(forms.ModelForm):
+    class Meta:
+        model = models.Ticket
+        fields = ['title', 'description']

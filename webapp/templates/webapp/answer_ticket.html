@@ -1,0 +1,18 @@
+{% extends 'base/base.html' %}
+{% block content %}
+    <div class="row">
+        <div class="col-4"></div>
+        <div class="col-4 item-center">
+            <h2>Répondre a un ticket</h2>
+            <p>{{ ticket.title }}</p>
+            <p>{{ ticket.description }}</p>
+            <img src="{{ ticket.image.url }}">
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit">Envoyer</button>
+            </form>
+        </div>
+        <div class="col-4"></div>
+    </div>
+{% endblock content %}

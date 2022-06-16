@@ -19,7 +19,8 @@
             <h2>Abonnements</h2>
             {% for user in following_user %}
                 <p>{{ user.user }}</p>
-                <form action="" method="post">
+                <form action="/follow-users/unfollow/{{ user.id }}" method="post">
+                    {% csrf_token %}
                     <input type="submit" value="Supprimer">
                 </form>
             {% endfor %}
