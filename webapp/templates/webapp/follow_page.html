@@ -4,31 +4,45 @@
         <div class="col-4"></div>
         <div class="col-4">
             <h2>Suivre d'autres utilisateurs</h2>
-            <form method="post">
-                {{ form.as_p }}
-                {% csrf_token %}
-                <button type="submit">Envoyer</button>
-            </form>
+            <div class="row mt-4 mb-1">
+                <form method="post">
+                    <div class="col-6">
+                        {{ form.as_p }}
+                        {% csrf_token %}
+                    </div>
+                    <div class="col-6">
+                        <button type="submit" class="btn btn-outline-primary">Envoyer</button>
+                    </div>
+                </form>
+            </div>
         </div>
         <div class="col-4"></div>
     </div>
 
-    <div class="row">
+    <div class="row mt-4 mb-1">
         <div class="col-4"></div>
         <div class="col-4">
             <h2>Abonnements</h2>
             {% for user in following_user %}
-                <p>{{ user.user }}</p>
+            <div class="row">
+                <div class="col-6">
+                    <p>{{ user.user }}</p>
+                </div>
+                <div class="col-6">
                 <form action="/follow-users/unfollow/{{ user.id }}" method="post">
                     {% csrf_token %}
-                    <input type="submit" value="Supprimer">
+                    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                        <input type="submit" class="btn btn-outline-danger justify-content-md-end" value="Désabonner">
+                    </div>
                 </form>
+                </div>
+            </div>
             {% endfor %}
         </div>
         <div class="col-4"></div>
     </div>
 
-    <div class="row">
+    <div class="row mt-4 mb-1">
         <div class="col-4"></div>
         <div class="col-4">
             <h2>Abonnés</h2>

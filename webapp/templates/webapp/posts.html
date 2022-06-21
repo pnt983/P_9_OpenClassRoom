@@ -9,6 +9,14 @@
                 <p>{{ ticket.user }}</p>
                 <p>{{ ticket.title }}</p>
                 <img src="{{ ticket.image.url }}" class="img-fluid">
+                <form method="post" action="/ticket/update/{{ ticket.id }}">
+                    {% csrf_token %}
+                    <button type="submit">Modifier mon ticket</button>
+                </form>
+                <form method="post" action="/ticket/delete/{{ ticket.id }}">
+                    {% csrf_token %}
+                    <button type="submit">Supprimer mon ticket</button>
+                </form>
             {% endfor %}
             {% for review in reviews %}
                 <p>{{ review.user }}</p>

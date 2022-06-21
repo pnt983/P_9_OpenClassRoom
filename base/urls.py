@@ -32,9 +32,11 @@ urlpatterns = [
     path('ticket/create/', webapp.views.create_ticket, name='create_ticket'),
     path('ticket/create/ticket-and-review/', webapp.views.create_ticket_and_review,
          name='create_ticket_and_review'),
+    path('ticket/answer/<int:id>', webapp.views.answer_ticket, name='answer_ticket'),
     path('follow-users/', webapp.views.follow_users, name='follow_page'),
-    path('test/<int:id>', webapp.views.answer_ticket, name='answer_ticket'),
     path('follow-users/unfollow/<int:id>', webapp.views.unfollow, name='unfollow'),
+    path('ticket/update/<int:id>', webapp.views.update_ticket, name='update_ticket'),
+    path('ticket/delete/<int:id>', webapp.views.delete_ticket, name='delete_ticket'),
 ]
 
 if settings.DEBUG:

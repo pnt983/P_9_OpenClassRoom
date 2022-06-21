@@ -2,6 +2,7 @@ from django.db import IntegrityError
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.db.models import Q
+from itertools import chain
 
 from authentication.models import User
 from base import settings
@@ -104,5 +105,27 @@ def answer_ticket(request, id):
             review.save()
             return redirect('flux')
     return render(request, 'webapp/answer_ticket.html', context={'ticket': ticket, 'form': form})
+
+
+@login_required
+def update_ticket(request, id):
+    ticket = models.Ticket.objects.get(id=id)
+    form = forms.TicketForm(instance=ticket)
+    if request.method == 'POST':
+        # ticket = models.Ticket.objects.get(id=id)
+        form = forms.TicketForm(request.POST, instance=ticket)
+        if form.is_valid():
+            form.save()
+            return redirect('posts')
+    return render(request, 'webapp/update_ticket.html', context={'form': form})
+
+
+@login_required
+def delete_ticket(request, id):
+    ticket = models.Ticket.objects.get(id=id)
+    ticket.delete()
+    return redirect('posts')
+
+
 
 

@@ -23,14 +23,14 @@
         <div class="col-4 text-center">
             <h2>Flux</h2>
             {% for ticket in tickets %}
-            <div class="card mb-3">
-              <div class="card-body">
+            <div class="card my-3 py-3">
+              <div class="card-body my-3 py-3">
                 <p class="card-text">{{ ticket.user }} a demandé une critique</p>
                 <h5 class="card-title">{{ ticket.title }}</h5>
                 <p class="card-text">{{ ticket.description }}</p>
                 <p class="card-text"><small class="text-muted">{{ ticket.time_created }}</small></p>
                 <img src="{{ ticket.image.url }}" class="card-img-top" alt="...">
-                <form method="post" action="/test/{{ ticket.id }}">
+                <form method="post" action="/ticket/answer/{{ ticket.id }}">
                     {% csrf_token %}
                     <button type="submit">Repondre au ticket</button>
                 </form>
@@ -38,7 +38,7 @@
               {% endfor %}
             </div>
             {% for review in reviews %}
-            <div class="card">
+            <div class="card my-3 py-3">
               <div class="card-body">
                   <p class="card-text">{{ review.user }} a fait une critique</p>
                   <p class="card-text">{{ review.headline }} {{ review.rating }}</p>
