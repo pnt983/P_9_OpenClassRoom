@@ -4,13 +4,19 @@
         <div class="col-4"></div>
         <div class="col-4 item-center">
             <h2>Répondre a un ticket</h2>
-            <p>{{ ticket.title }}</p>
-            <p>{{ ticket.description }}</p>
-            <img src="{{ ticket.image.url }}">
-            <form method="post" enctype="multipart/form-data">
+            <p class="mt-4">Vous etes en train de répondre à</p>
+            <div class="border mt-2 py-2 px-2">
+                <p>{{ ticket.title }}</p>
+                <p>{{ ticket.description }}</p>
+                <img class="img-fluid" src="{{ ticket.image.url }}">
+            </div>
+            <form class="border py-2 px-2" method="post" enctype="multipart/form-data">
+                <p>Critique</p>
                 {% csrf_token %}
                 {{ form.as_p }}
-                <button type="submit">Envoyer</button>
+                <div class="d-grid gap-2 col-4 mx-auto">
+                    <button type="submit" class="btn btn-primary mx-auto">Envoyer</button>
+                </div>
             </form>
         </div>
         <div class="col-4"></div>

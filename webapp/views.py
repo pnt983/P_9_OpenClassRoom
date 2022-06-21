@@ -12,11 +12,12 @@ from . import forms, models
 @login_required
 def flux(request):
     following_user_list = []
-    user_follow = models.UserFollows.objects.filter(followed_user=request.user)
-    for i in user_follow:
-        following_user_list.append(i.user.id)
-    tickets = models.Ticket.objects.filter(Q(user__in=following_user_list) | Q(user=request.user))
-    reviews = models.Review.objects.filter(Q(user__in=following_user_list) | Q(user=request.user))
+    users_followed = models.UserFollows.objects.filter(followed_user=request.user)
+    for user in users_followed:
+        following_user_list.append(user.user)
+    following_user_list.append(request.user)
+    tickets = models.Ticket.objects.filter(Q(user__in=following_user_list))
+    reviews = models.Review.objects.filter(Q(user__in=following_user_list) | Q(ticket__user=request.user))
     return render(request, 'webapp/flux.html', context={'tickets': tickets, 'reviews': reviews})
 
 
@@ -112,8 +113,7 @@ def update_ticket(request, id):
     ticket = models.Ticket.objects.get(id=id)
     form = forms.TicketForm(instance=ticket)
     if request.method == 'POST':
-        # ticket = models.Ticket.objects.get(id=id)
-        form = forms.TicketForm(request.POST, instance=ticket)
+        form = forms.TicketForm(request.POST, request.FILES, instance=ticket)
         if form.is_valid():
             form.save()
             return redirect('posts')
@@ -122,8 +122,10 @@ def update_ticket(request, id):
 
 @login_required
 def delete_ticket(request, id):
-    ticket = models.Ticket.objects.get(id=id)
-    ticket.delete()
+    if request.method == 'POST':
+        ticket = models.Ticket.objects.get(id=id)
+        if ticket.user == request.user:
+            ticket.delete()
     return redirect('posts')
 
 

@@ -4,19 +4,18 @@
     <div class="row">
         <div class="col-4"></div>
         <div class="col-4 text-center">
-            <h2>Mes posts</h2>
+            <h2 class="my-4">Mes posts</h2>
             {% for ticket in tickets %}
+            <div class="border my-2 py-2">
                 <p>{{ ticket.user }}</p>
                 <p>{{ ticket.title }}</p>
                 <img src="{{ ticket.image.url }}" class="img-fluid">
-                <form method="post" action="/ticket/update/{{ ticket.id }}">
-                    {% csrf_token %}
-                    <button type="submit">Modifier mon ticket</button>
-                </form>
+                <a href="/ticket/update/{{ ticket.id }}" class="btn btn-primary mt-2">Modifier mon ticket</a>
                 <form method="post" action="/ticket/delete/{{ ticket.id }}">
                     {% csrf_token %}
-                    <button type="submit">Supprimer mon ticket</button>
+                    <button type="submit" class="btn btn-danger mt-2">Supprimer mon ticket</button>
                 </form>
+            </div>
             {% endfor %}
             {% for review in reviews %}
                 <p>{{ review.user }}</p>

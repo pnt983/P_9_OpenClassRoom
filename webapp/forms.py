@@ -22,8 +22,11 @@ class TicketForm(forms.ModelForm):
 
 class ReviewForm(forms.ModelForm):
     RATING_CHOICES = [('0', '0'), ('1', '1'), ('2', '2'), ('3', '3'), ('4', '4'), ('5', '5')]
+    headline = forms.CharField(widget=forms.TextInput(attrs={'label': 'Titre', 'placeholder': 'Titre'}))
     rating = forms.ChoiceField(choices=RATING_CHOICES,
-                               widget=forms.RadioSelect(attrs={'class': 'd-flex justify-content-between'}))
+                               widget=forms.RadioSelect(attrs={'class': 'd-flex justify-content-between',
+                                                               'label': 'Note'}))
+    body = forms.CharField(widget=forms.Textarea(attrs={'placeholder': 'Commentaire'}))
 
     class Meta:
         model = models.Review

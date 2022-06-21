@@ -1,24 +1,25 @@
 {% extends 'base/base.html' %}
 {% block content %}
-    <div class="row">
-        <div class="col-3"></div>
-        <div class="col-3">
-            <form>
-                <a href="{% url 'create_ticket' %}">
-                <input type="button" value="Demander une critique">
-                </a>
-            </form>
+    <div class="container">
+        <div class="row mt-5">
+            <div class="col-3"></div>
+            <div class="col-3">
+                <form>
+                    <a href="{% url 'create_ticket' %}">
+                    <input type="button" class="btn btn-primary" value="Demander une critique">
+                    </a>
+                </form>
+            </div>
+            <div class="col-3 mx-5 px-5">
+                <form>
+                    <a href="{% url 'create_ticket_and_review' %}">
+                    <input type="button" class="btn btn-primary" value="Créer une critique">
+                    </a>
+                </form>
+            </div>
         </div>
-        <div class="col-3">
-            <form>
-                <a href="{% url 'create_ticket_and_review' %}">
-                <input type="button" value="Créer une critique">
-                </a>
-            </form>
-        </div>
         <div class="col-3"></div>
-    </div>
-    <div class="row">
+    <div class="row mt-5">
         <div class="col-4"></div>
         <div class="col-4 text-center">
             <h2>Flux</h2>
@@ -29,11 +30,8 @@
                 <h5 class="card-title">{{ ticket.title }}</h5>
                 <p class="card-text">{{ ticket.description }}</p>
                 <p class="card-text"><small class="text-muted">{{ ticket.time_created }}</small></p>
-                <img src="{{ ticket.image.url }}" class="card-img-top" alt="...">
-                <form method="post" action="/ticket/answer/{{ ticket.id }}">
-                    {% csrf_token %}
-                    <button type="submit">Repondre au ticket</button>
-                </form>
+                <img src="{{ ticket.image.url }}" class="card-img-top img-fluid" alt="...">
+                <a href="/ticket/answer/{{ ticket.id }}" class="btn btn-primary mt-2">Repondre au ticket</a>
               </div>
               {% endfor %}
             </div>
