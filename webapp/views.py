@@ -1,12 +1,13 @@
 from django.db import IntegrityError
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
-from django.db.models import Q
+from django.db.models import Q, CharField, Value
 from itertools import chain
 
 from authentication.models import User
 from base import settings
 from . import forms, models
+from .models import UserFollows
 
 
 @login_required
@@ -17,15 +18,23 @@ def flux(request):
         following_user_list.append(user.user)
     following_user_list.append(request.user)
     tickets = models.Ticket.objects.filter(Q(user__in=following_user_list))
+    tickets = tickets.annotate(content_type=Value('TICKET', CharField()))
     reviews = models.Review.objects.filter(Q(user__in=following_user_list) | Q(ticket__user=request.user))
-    return render(request, 'webapp/flux.html', context={'tickets': tickets, 'reviews': reviews})
+    reviews = reviews.annotate(content_type=Value('REVIEW', CharField()))
+    posts = sorted(chain(tickets, reviews),
+                   key=lambda post: post.time_created, reverse=True)
+    return render(request, 'webapp/flux.html', context={'posts': posts})
 
 
 @login_required
 def posts_by_user(request):
     tickets = models.Ticket.objects.filter(user=request.user)
+    tickets = tickets.annotate(content_type=Value('TICKET', CharField()))
     reviews = models.Review.objects.filter(user=request.user)
-    return render(request, 'webapp/posts.html', context={'tickets': tickets, 'reviews': reviews})
+    reviews = reviews.annotate(content_type=Value('REVIEW', CharField()))
+    posts = sorted(chain(tickets, reviews),
+                   key=lambda post: post.time_created, reverse=True)
+    return render(request, 'webapp/posts.html', context={'posts': posts})
 
 
 @login_required
@@ -63,15 +72,19 @@ def create_ticket_and_review(request):
 
 @login_required
 def follow_users(request):
-    follow_form = forms.FollowForm(instance=request.user)
+    user_following_list = []
     following_user = models.UserFollows.objects.filter(followed_user=request.user).exclude(user=request.user)
+    for user in following_user:
+        user_following_list.append(user.user.id)
+        user_following_list.append(user.followed_user.id)
     followed_user = models.UserFollows.objects.filter(user=request.user).exclude(followed_user=request.user)
+    follow_form = forms.FollowForm()
+    follow_form.fields['user_to_follow'].queryset = User.objects.exclude(id__in=user_following_list)
     if request.method == 'POST':
         follow_form = forms.FollowForm(request.POST)
         if follow_form.is_valid():
             try:
-                form = follow_form.save(commit=False)
-                user_follow = models.UserFollows(user=form.followed_user, followed_user=request.user)
+                user_follow = models.UserFollows(user=follow_form.cleaned_data['user_to_follow'], followed_user=request.user)
                 user_follow.save()
                 return redirect('follow_page')
             except IntegrityError:

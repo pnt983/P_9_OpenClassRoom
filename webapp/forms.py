@@ -1,17 +1,17 @@
 from django import forms
-from django.contrib.auth import get_user_model
 
+from authentication.models import User
 from . import models
 
 
-# User = get_user_model()
-from .models import UserFollows
+# class FollowForm(forms.ModelForm):
+#     class Meta:
+#         model = UserFollows
+#         fields = ['followed_user']
 
-
-class FollowForm(forms.ModelForm):
-    class Meta:
-        model = UserFollows
-        fields = ['followed_user']
+class FollowForm(forms.Form):
+    """Form to follow a user"""
+    user_to_follow = forms.ModelChoiceField(label='Utilisateur', queryset=User.objects.all())
 
 
 class TicketForm(forms.ModelForm):
@@ -22,11 +22,10 @@ class TicketForm(forms.ModelForm):
 
 class ReviewForm(forms.ModelForm):
     RATING_CHOICES = [('0', '0'), ('1', '1'), ('2', '2'), ('3', '3'), ('4', '4'), ('5', '5')]
-    headline = forms.CharField(widget=forms.TextInput(attrs={'label': 'Titre', 'placeholder': 'Titre'}))
-    rating = forms.ChoiceField(choices=RATING_CHOICES,
-                               widget=forms.RadioSelect(attrs={'class': 'd-flex justify-content-between',
-                                                               'label': 'Note'}))
-    body = forms.CharField(widget=forms.Textarea(attrs={'placeholder': 'Commentaire'}))
+    headline = forms.CharField(label='Titre', widget=forms.TextInput(attrs={'placeholder': 'Titre'}))
+    rating = forms.ChoiceField(label='Note', choices=RATING_CHOICES,
+                               widget=forms.RadioSelect(attrs={'class': 'd-flex justify-content-between'}))
+    body = forms.CharField(label='Commentaire', widget=forms.Textarea(attrs={'placeholder': 'Commentaire'}))
 
     class Meta:
         model = models.Review

@@ -5,22 +5,31 @@
         <div class="col-4"></div>
         <div class="col-4 text-center">
             <h2 class="my-4">Mes posts</h2>
-            {% for ticket in tickets %}
+            {% for post in posts %}
+            {% if post.content_type == 'TICKET' %}
             <div class="border my-2 py-2">
-                <p>{{ ticket.user }}</p>
-                <p>{{ ticket.title }}</p>
-                <img src="{{ ticket.image.url }}" class="img-fluid">
-                <a href="/ticket/update/{{ ticket.id }}" class="btn btn-primary mt-2">Modifier mon ticket</a>
-                <form method="post" action="/ticket/delete/{{ ticket.id }}">
+                {% if post.user == user %}
+                    <p>Vous avez demandé une critique</p>
+                {% else %}
+                    <p>{{ post.user }} a demandé une critique</p>
+                {% endif %}
+                <p>{{ post.title }}</p>
+                <img src="{{ post.image.url }}" class="img-fluid">
+                <a href="/ticket/update/{{ post.id }}" class="btn btn-primary mt-2">Modifier mon ticket</a>
+                <form method="post" action="/ticket/delete/{{ post.id }}">
                     {% csrf_token %}
                     <button type="submit" class="btn btn-danger mt-2">Supprimer mon ticket</button>
                 </form>
             </div>
-            {% endfor %}
-            {% for review in reviews %}
-                <p>{{ review.user }}</p>
-                <p>{{ review.headline }}</p>
-                <img src="{{ reviews.image.url }}" class="img-fluid">
+            {% elif post.content_type == 'REVIEW' %}
+            {% if post.user == user %}
+            <p>Vous avez fait une critique</p>
+            {% else %}
+                <p>{{ post.user }} a fait une critique</p>
+            {% endif %}
+                <p>{{ post.headline }}</p>
+                <img src="{{ post.image.url }}" class="img-fluid">
+            {% endif %}
             {% endfor %}
         </div>
         <div class="col-4"></div>
