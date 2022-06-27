@@ -1,0 +1,48 @@
+{% extends 'base/base.html' %}
+{% block content %}
+
+<div class="row mt-5">
+        <div class="col-4"></div>
+        <div class="col-4 item-center">
+            <h2 class="text-center">Modifier ma critique</h2>
+            <div class="card" style="width: 35rem;">
+                <div class="card-header">
+                    Vous etes en train de poster en réponse à
+                </div>
+                <div class="card-body">
+                    <p class="card-text">{{ ticket.time_created }}</p>
+                    <p class="card-text">{{ ticket.user }} a demandé une critique</p>
+                    <p class="card-text">{{ ticket.title }}</p>
+                    <p class="card-text">{{ ticket.description }}</p>
+                    {% if image or ticket.image %}
+                        <img src="{% firstof  ticket.image.url ticket.image %}" class="img-fluid" alt="image">
+                    {% else %}
+                        <img src="{{ static }}/media/empty_image.png " class="img-fluid" alt="image vide">
+                    {% endif %}
+                </div>
+            </div>
+
+            <form method="post" enctype="multipart/form-data" class="mt-4">
+                <div class="card py-4 px-4" style="width: 35rem;">
+                    <div class="card-header py-2 px-2 my-0 mb-2">
+                        Critique
+                    </div>
+                    {{ form.as_p }}
+                    {% csrf_token %}
+                    <div class="d-grid gap-2 col-4 mx-auto">
+                        <button type="submit" class="btn btn-primary mt-2 ">Envoyer</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="col-4"></div>
+    </div>
+
+{% endblock content %}
+
+
+
+
+<!--<form method="post" enctype="multipart/form-data" class="mt-4">-->
+<!--                {{ form.as_p }}-->
+<!--                {% csrf_token %}-->

@@ -1,0 +1,39 @@
+<div class="row">
+        <div class="col-4"></div>
+        <div class="col-4 text-center">
+            {% for post in posts %}
+            {% if post.content_type == 'REVIEW' %}
+                    <div class="border my-2 py-2 px-2">
+                        {% if post.user == user %}
+                            <p class="text-left">Vous avez publié une critique</p>
+                        {% else %}
+                            <p class="text-left">{{ post.user }} a publié une critique</p>
+                        {% endif %}
+                        <p class="text-right"><small class="text-muted">{{ post.time_created }}</small></p>
+                        <p class="text-left">{{ post.headline }} - <img src="{{ static }}/media/etoile_{{post.rating }}.png" alt="etoile" width="100rem"></p>
+                        <p class="text-left">{{ post.body }}</p>
+
+                        <div class="border my-2 py-2 px-2">
+                            <p class="text-left">Ticket - {{ post.ticket.user }}</p>
+                            <p class="text-right"><small class="text-muted">{{ post.ticket.time_created }}</small> </p>
+                            <p class="text-left">{{ post.ticket.title }}</p>
+                            {% if post.image or post.ticket.image %}
+                                <img src="{% firstof  post.ticket.image.url post.ticket.image %}" class="img-fluid" alt="image">
+                            {% else %}
+                                <img src="{{ static }}/media/empty_image.png " class="img-fluid" alt="image vide">
+                            {% endif %}
+                        </div>
+
+                        {% if user_post %}
+                            <a href="/review/update/{{ post.id }}" class="btn btn-primary mt-2">Modifier ma critique</a>
+                            <form method="post" action="/review/delete/{{ post.id }}">
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-danger mt-2">Supprimer ma critique</button>
+                            </form>
+                        {% endif %}
+                    </div>
+                {% endif %}
+            {% endfor %}
+        </div>
+        <div class="col-4"></div>
+    </div>

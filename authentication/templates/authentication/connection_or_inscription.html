@@ -1,16 +1,20 @@
 {% extends 'base/authentication_base.html' %}
 {% block content %}
-    <div class="row">
-        <div class="col-6">
+<div class="container">
+    <div class="row mt-5">
+        <div class="col-6 mt-4">
             <p class="text-center">Pas encore membre ? <a href="{% url 'signup' %}">Inscrivez-vous maintenant !</a></p>
         </div>
-        <div class="col-6">
+        <div class="col-6 mt-2">
             <p>{{ message }}</p>
             <form method="post">
                 {{ form.as_p }}
                 {% csrf_token %}
-                <button type="submit">Se connecter</button>
+                <div class="d-grid gap-2 col-6 mx-5">
+                    <button type="submit" class="btn btn-primary mx-5 mt-2">Se connecter</button>
+                </div>
             </form>
         </div>
     </div>
+</div>
 {% endblock content %}

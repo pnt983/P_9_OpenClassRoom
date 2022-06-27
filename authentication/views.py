@@ -17,3 +17,8 @@ def signup_page(request):
     return render(request, 'authentication/signup.html', context={'form': form})
 
 
+def logout_user(request):
+    logout(request)
+    return redirect('login')
+
+

@@ -37,6 +37,8 @@ urlpatterns = [
     path('follow-users/unfollow/<int:id>', webapp.views.unfollow, name='unfollow'),
     path('ticket/update/<int:id>', webapp.views.update_ticket, name='update_ticket'),
     path('ticket/delete/<int:id>', webapp.views.delete_ticket, name='delete_ticket'),
+    path('review/update/<int:id>', webapp.views.update_review, name='update_review'),
+    path('review/delete/<int:id>', webapp.views.delete_review, name='delete_review'),
 ]
 
 if settings.DEBUG:

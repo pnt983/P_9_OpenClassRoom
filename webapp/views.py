@@ -34,7 +34,8 @@ def posts_by_user(request):
     reviews = reviews.annotate(content_type=Value('REVIEW', CharField()))
     posts = sorted(chain(tickets, reviews),
                    key=lambda post: post.time_created, reverse=True)
-    return render(request, 'webapp/posts.html', context={'posts': posts})
+    context = {'posts': posts, 'user_post': True}
+    return render(request, 'webapp/posts.html', context=context)
 
 
 @login_required
@@ -142,5 +143,25 @@ def delete_ticket(request, id):
     return redirect('posts')
 
 
+@login_required
+def update_review(request, id):
+    review = models.Review.objects.get(id=id)
+    ticket = review.ticket
+    print('mon print', review.rating)
+    form = forms.ReviewForm(instance=review)
+    if request.method == 'POST':
+        form = forms.ReviewForm(request.POST, request.FILES, instance=review)
+        if form.is_valid():
+            form.save()
+            return redirect('posts')
+    return render(request, 'webapp/update_review.html', context={'form': form, 'ticket': ticket})
 
+
+@login_required
+def delete_review(request, id):
+    if request.method == 'POST':
+        review = models.Review.objects.get(id=id)
+        if review.user == request.user:
+            review.delete()
+    return redirect('posts')
 

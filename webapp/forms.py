@@ -4,17 +4,14 @@ from authentication.models import User
 from . import models
 
 
-# class FollowForm(forms.ModelForm):
-#     class Meta:
-#         model = UserFollows
-#         fields = ['followed_user']
-
 class FollowForm(forms.Form):
     """Form to follow a user"""
     user_to_follow = forms.ModelChoiceField(label='Utilisateur', queryset=User.objects.all())
 
 
 class TicketForm(forms.ModelForm):
+    description = forms.CharField(label='Description', widget=forms.Textarea(attrs={'placeholder': 'Description'}))
+
     class Meta:
         model = models.Ticket
         fields = ['title', 'description', 'image']

@@ -3,12 +3,14 @@
 
 <div class="row">
         <div class="col-4"></div>
-        <div class="col-4 item-center">
-            <h2>Modifier mon ticket</h2>
-            <form method="post" enctype="multipart/form-data">
+        <div class="col-4">
+            <h2 class="text-center mt-4">Modifier mon ticket</h2>
+            <form method="post" enctype="multipart/form-data" class="mt-4">
                 {{ form.as_p }}
                 {% csrf_token %}
-                <button type="submit">Envoyer</button>
+                <div class="d-grid gap-2 col-4 mx-auto">
+                    <button type="submit" class="btn btn-primary mt-3">Envoyer</button>
+                </div>
             </form>
         </div>
         <div class="col-4"></div>
