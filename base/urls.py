@@ -23,9 +23,8 @@ import webapp.views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', LoginView.as_view(template_name='authentication/connection_or_inscription.html',
-                               redirect_authenticated_user=True), name='login'),
-    path('logout/', LogoutView.as_view(), name='logout'),
+    path('', authentication.views.login_page, name='login'),
+    path('logout/', authentication.views.logout_user, name='logout'),
     path('flux/', webapp.views.flux, name='flux'),
     path('posts/', webapp.views.posts_by_user, name='posts'),
     path('signup/', authentication.views.signup_page, name='signup'),

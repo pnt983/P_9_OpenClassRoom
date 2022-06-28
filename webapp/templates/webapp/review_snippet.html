@@ -1,7 +1,6 @@
 <div class="row">
         <div class="col-4"></div>
         <div class="col-4 text-center">
-            {% for post in posts %}
             {% if post.content_type == 'REVIEW' %}
                     <div class="border my-2 py-2 px-2">
                         {% if post.user == user %}
@@ -26,14 +25,13 @@
 
                         {% if user_post %}
                             <a href="/review/update/{{ post.id }}" class="btn btn-primary mt-2">Modifier ma critique</a>
-                            <form method="post" action="/review/delete/{{ post.id }}">
+                            <form method="post" action="/review/delete/{{ post.id }}" onsubmit="return confirm('Voulez vous vraiment supprimer cette critique ?')">
                                 {% csrf_token %}
                                 <button type="submit" class="btn btn-danger mt-2">Supprimer ma critique</button>
                             </form>
                         {% endif %}
                     </div>
                 {% endif %}
-            {% endfor %}
         </div>
         <div class="col-4"></div>
     </div>

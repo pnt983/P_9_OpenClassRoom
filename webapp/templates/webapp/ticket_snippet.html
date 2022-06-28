@@ -1,7 +1,6 @@
 <div class="row">
         <div class="col-4"></div>
         <div class="col-4 text-center">
-            {% for post in posts %}
                 {% if post.content_type == 'TICKET' %}
                 <div class="border my-2 py-2 px-2">
                     {% if post.user == user %}
@@ -9,7 +8,7 @@
                     {% else %}
                         <p class="text-left">{{ post.user }} a demandé une critique</p>
                     {% endif %}
-                    <p class="text-right"><small class="text-muted">{{ post.time_created }}</small></p>
+                    <p class="text-right lh-1"><small class="text-muted">{{ post.time_created }}</small></p>
                     <p class="text-left">{{ post.title }}</p>
                     {% if post.image or post.ticket.image %}
                         <img src="{% firstof  post.image.url post.image %}" class="img-fluid" alt="image">
@@ -18,13 +17,25 @@
                     {% endif %}
 
                     {% if user_post %}
-                        <a href="/ticket/update/{{ post.id }}" class="btn btn-primary mt-2">Modifier mon ticket</a>
-                        <form method="post" action="/ticket/delete/{{ post.id }}">
-                            {% csrf_token %}
-                            <button type="submit" class="btn btn-danger mt-2">Supprimer mon ticket</button>
-                        </form>
+                        <div class="row">
+                            <div class="d-grid gap-2 col-12 mx-auto">
+                                <a href="/ticket/update/{{ post.id }}" class="btn btn-primary mt-2">Modifier mon ticket</a>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="d-grid gap-2 col-12 mx-auto">
+                                <form method="post" action="/ticket/delete/{{ post.id }}" onsubmit="return confirm('Voulez vous vraiment supprimer ce ticket ?')">
+                                    {% csrf_token %}
+                                    <button type="submit" class="btn btn-danger mt-2">Supprimer mon ticket</button>
+                                </form>
+                            </div>
+                        </div>
                     {% else %}
-                        <a href="/ticket/answer/{{ post.id }}" class="btn btn-primary mt-2">Repondre au ticket</a>
+                    <div class="row">
+                        <div class="d-grid gap-2 col-12 mx-auto">
+                            <a href="/ticket/answer/{{ post.id }}" class="btn btn-primary mt-2">Repondre au ticket</a>
+                        </div>
+                    </div>
                     {% endif %}
 
 
@@ -35,7 +46,6 @@
 
 
                 {% endif %}
-            {% endfor %}
         </div>
 </div>
 

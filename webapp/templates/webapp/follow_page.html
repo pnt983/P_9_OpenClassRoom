@@ -1,15 +1,14 @@
 {% extends 'base/base.html' %}
 {% block content %}
-<div class="container">
     <div class="row mt-5">
         <div class="col-4"></div>
         <div class="col-4">
             <h2>Suivre d'autres utilisateurs</h2>
-                <form method="post" class="mt-3">
+                <form method="post" class="mt-4">
                         {{ form.as_p }}
                         {% csrf_token %}
                     <div class="d-grid gap-2 col-4 mx-auto">
-                        <button type="submit" class="btn btn-primary mx-auto">Envoyer</button>
+                        <button type="submit" class="btn btn-primary mx-auto mb-2">Envoyer</button>
                     </div>
                 </form>
         </div>
@@ -26,7 +25,7 @@
                     <p>{{ user.user }}</p>
                 </div>
                 <div class="col-6">
-                <form action="/follow-users/unfollow/{{ user.id }}" method="post">
+                <form action="/follow-users/unfollow/{{ user.id }}" method="post" onsubmit="return confirm('Voulez vous vraiment ne plus suivre cet utilisateur ?')">
                     {% csrf_token %}
                     <div class="d-grid gap-2 d-md-flex justify-content-md-end">
                         <input type="submit" class="btn btn-outline-danger justify-content-md-end" value="Désabonner">
@@ -49,6 +48,5 @@
         </div>
         <div class="col-4"></div>
     </div>
-</div>
 
 {% endblock content %}

@@ -5,9 +5,7 @@ from django.db.models import Q, CharField, Value
 from itertools import chain
 
 from authentication.models import User
-from base import settings
 from . import forms, models
-from .models import UserFollows
 
 
 @login_required
