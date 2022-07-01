@@ -136,6 +136,7 @@ dmypy.json
 ./.idea
 /.idea/misc.xml
 
+
 # User-specific stuff
 .idea/**/workspace.xml
 .idea/**/tasks.xml
@@ -245,3 +246,4 @@ fabric.properties
 # https://plugins.jetbrains.com/plugin/8053-azure-toolkit-for-intellij
 .idea/**/azureSettings.xml
 .idea
+Présentation P9.pptx
