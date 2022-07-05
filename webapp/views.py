@@ -1,7 +1,7 @@
 from django.db import IntegrityError
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
-from django.db.models import Q, CharField, Value
+from django.db.models import Q, CharField, Value, Count
 from itertools import chain
 
 from authentication.models import User
@@ -17,6 +17,7 @@ def flux(request):
     following_user_list.append(request.user)
     tickets = models.Ticket.objects.filter(Q(user__in=following_user_list))
     tickets = tickets.annotate(content_type=Value('TICKET', CharField()))
+    tickets = tickets.annotate(review_number=Count('review'))
     reviews = models.Review.objects.filter(Q(user__in=following_user_list) | Q(ticket__user=request.user))
     reviews = reviews.annotate(content_type=Value('REVIEW', CharField()))
     posts = sorted(chain(tickets, reviews),

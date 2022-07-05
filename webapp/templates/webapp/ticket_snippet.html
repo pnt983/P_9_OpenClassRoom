@@ -31,11 +31,13 @@
                             </div>
                         </div>
                     {% else %}
-                    <div class="row">
-                        <div class="d-grid gap-2 col-12 mx-auto">
-                            <a href="/ticket/answer/{{ post.id }}" class="btn btn-primary mt-2">Repondre au ticket</a>
-                        </div>
-                    </div>
+                        {% if post.review_number == 0 %}
+                            <div class="row">
+                                <div class="d-grid gap-2 col-12 mx-auto">
+                                    <a href="/ticket/answer/{{ post.id }}" class="btn btn-primary mt-2">Repondre au ticket</a>
+                                </div>
+                            </div>
+                        {% endif %}
                     {% endif %}
 
 
