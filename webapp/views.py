@@ -124,13 +124,18 @@ def answer_ticket(request, id):
 @login_required
 def update_ticket(request, id):
     ticket = models.Ticket.objects.get(id=id)
-    form = forms.TicketForm(instance=ticket)
-    if request.method == 'POST':
-        form = forms.TicketForm(request.POST, request.FILES, instance=ticket)
-        if form.is_valid():
-            form.save()
-            return redirect('posts')
-    return render(request, 'webapp/update_ticket.html', context={'form': form})
+    try:
+        if request.user == ticket.user:
+            form = forms.TicketForm(instance=ticket)
+            if request.method == 'POST':
+                form = forms.TicketForm(request.POST, request.FILES, instance=ticket)
+                if form.is_valid():
+                    form.save()
+                    return redirect('posts')
+        return render(request, 'webapp/update_ticket.html', context={'form': form})
+    except Exception:
+        print("Vous n'etes pas l'auteur de ce ticket")
+        return redirect('posts')
 
 
 @login_required
@@ -145,15 +150,19 @@ def delete_ticket(request, id):
 @login_required
 def update_review(request, id):
     review = models.Review.objects.get(id=id)
-    ticket = review.ticket
-    print('mon print', review.rating)
-    form = forms.ReviewForm(instance=review)
-    if request.method == 'POST':
-        form = forms.ReviewForm(request.POST, request.FILES, instance=review)
-        if form.is_valid():
-            form.save()
-            return redirect('posts')
-    return render(request, 'webapp/update_review.html', context={'form': form, 'ticket': ticket})
+    try:
+        if request.user == review.user:
+            ticket = review.ticket
+            form = forms.ReviewForm(instance=review)
+            if request.method == 'POST':
+                form = forms.ReviewForm(request.POST, request.FILES, instance=review)
+                if form.is_valid():
+                    form.save()
+                    return redirect('posts')
+        return render(request, 'webapp/update_review.html', context={'form': form, 'ticket': ticket})
+    except Exception:
+        print("Vous n'etes pas l'auteur de cette review")
+        return redirect('posts')
 
 
 @login_required
